@@ -4,11 +4,12 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import MUISelect, { SelectChangeEvent } from '@mui/material/Select';
 
+
 export function SecoundSelect() {
-  const [currency, setAge] = React.useState('');
+  const [secoundCurrency, setCurrency] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
+    setCurrency(event.target.value);
   };
 
   return (
@@ -18,9 +19,9 @@ export function SecoundSelect() {
         <MUISelect
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
-          value={currency}
+          value={secoundCurrency}
           onChange={handleChange}
-          label="Age"
+          label="Currency"
         >
           <MenuItem value="">
             <em>None</em>

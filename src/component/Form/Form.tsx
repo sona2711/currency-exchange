@@ -12,7 +12,8 @@ import { FormInfo } from './InfoText'
 
 
 export function Form() {
-   const [response, setData]= useState([])
+   const [firstResponse, setData]= useState([])
+   const [secResponce, setSecData] = useState([])
 
    useEffect(() => {
      fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json')
@@ -22,9 +23,24 @@ export function Form() {
      })
    })
 
-  console.log(response)
+   useEffect(() => {
+    fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/btg.min.json')
+    .then(data => data.json())
+    .then(data => {
+        setSecData(data)
+    })
+  })
+
+    // handleSubmit = (event: { preventDefault: () => void; }) => {
+    // event.preventDefault();
+    // };
+    // this.handleSubmit
+    // onchange = (e) => {
+    //     this.useState({[e.target.name] : e.target.value})
+    // }
+  console.log(firstResponse)
+  console.log(secResponce)
     return (
-        
         <Box sx={{
             display:'flex',
             flexDirection: 'column',
