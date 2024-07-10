@@ -11,35 +11,57 @@ import { FormInfo } from './InfoText'
 
 
 
+interface CurrencyData {
+    [key: string]: string;
+  }
+
+
 export function Form() {
-   const [firstResponse, setData]= useState([])
-   const [secResponce, setSecData] = useState([])
+    const [currencies, setCurrencies] = useState<CurrencyData>({});
+    const [fromCurrency, setFromCurrency] = useState<string>('');
+    const [toCurrency, setToCurrency] = useState<string>('');
+    const [amount, setAmount] = useState<number | string>('');
+    const [convertedAmount, setConvertedAmount] = useState<number | null>(null);
+
+
+   const handleChange = (event: any) => {
+    setAmount(event.target.value)
+  };
+   
+
+
 
    useEffect(() => {
-     fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json')
-     .then(data => data.json())
+     fetch(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json`)
+     .then(response=> response.json())
      .then(data => {
-        setData(data)
+        setCurrencies(data)
      })
-   })
+     .catch(error => console.error('Error fetching currencies:', error));
+   }, [])
 
-   useEffect(() => {
-    fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/btg.min.json')
-    .then(data => data.json())
+
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    if (!fromCurrency || !toCurrency || !amount) return;
+
+    console.log(fromCurrency)
+    fetch(`https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${fromCurrency}.min.json`)
+    .then(response => response.json())
     .then(data => {
-        setSecData(data)
+      console.log(data)
+      const rate = data[fromCurrency][toCurrency];
+      console.log(rate)
+     setConvertedAmount(Number(amount) * rate);
     })
-  })
+    .catch(error => console.error('Error fetching exchange rate:', error));
+  };
+  
 
-    // handleSubmit = (event: { preventDefault: () => void; }) => {
-    // event.preventDefault();
-    // };
-    // this.handleSubmit
-    // onchange = (e) => {
-    //     this.useState({[e.target.name] : e.target.value})
-    // }
-  console.log(firstResponse)
-  console.log(secResponce)
+
+
+
     return (
         <Box sx={{
             display:'flex',
@@ -47,20 +69,22 @@ export function Form() {
             gap: '30px',
             }}>
             <FormHeader/>
-            <form onSubmit={SubmitBtn}>
+            <form onSubmit={handleSubmit}>
                 <Box sx={{
-                display:'flex',
-                gap: '30px',
-                justifyContent: 'center',
-                alignItems: 'center'}}>
-                    <Textfield/>
-                    <FirstSelect/>
+                    display:'flex',
+                    gap: '30px',
+                    justifyContent: 'center',
+                    alignItems: 'center'}}>
+                    <Textfield value={amount} onChange={handleChange}/>
+                    <FirstSelect   value={fromCurrency}  onChange={setFromCurrency} currencies={currencies} />
                     <SwapButton/>
-                    <SecoundSelect/>
+                    <SecoundSelect  value={toCurrency} onChange={setToCurrency} currencies={currencies}/> 
                     <SubmitBtn/>
                 </Box>
             </form>
-            <FormInfo/>
+            {convertedAmount !== null && (
+        <FormInfo amount={amount}  convertedAmount={convertedAmount} fromCurrency={fromCurrency} toCurrency={toCurrency} />)}
         </Box>   
     );
   }
+

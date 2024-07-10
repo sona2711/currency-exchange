@@ -1,5 +1,7 @@
 import { Box } from '@mui/material';
-import { Form } from './component/Form/Form'
+import { Form } from './component/Form/Form';
+import { NavBar } from './component/Navigation/NavBar';
+import { LastConversions } from './component/Exchange_History/LastConversions';
 
 function App() {
   return (
@@ -8,7 +10,9 @@ function App() {
         flexDirection: 'column',
         gap: 1, justifyContent: 'center',
         alignItems: 'center'}}> 
-    <Form/>  
+      <NavBar/>
+      <Form/> 
+      <LastConversions/> 
     </Box>
   );
 }

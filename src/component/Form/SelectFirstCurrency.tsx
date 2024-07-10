@@ -1,21 +1,17 @@
-import * as React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import MUISelect, { SelectChangeEvent } from '@mui/material/Select';
+import MUISelect from '@mui/material/Select';
 
-export function FirstSelect(firstResponse: any) {
-  const data:any[] = []
-  data.push(Object.entries(firstResponse))
-  console.log(data)
- 
+interface SelectCurrencyProps {
+  value: string;
+  onChange: (value: string) => void;
+  currencies: { [key: string]: string };
+}
 
-  const [firstCurrency, getCurrency] = React.useState('');
 
-  const handleChange = (event: SelectChangeEvent) => {
-    getCurrency(event.target.value);
-  };
-
+export function FirstSelect({ value, onChange, currencies }: SelectCurrencyProps ) {
+  
   return (
     <div>
       <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
@@ -23,16 +19,18 @@ export function FirstSelect(firstResponse: any) {
         <MUISelect
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
-          value={firstCurrency}
-          onChange={handleChange}
+          value={value}
+          onChange={e => onChange(e.target.value as string)}
           label="Currency"
         >
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-           {data.map(el => 
-            <MenuItem key={el.key}  value={el.key}>{el.value}</MenuItem>
-            )}
+          {Object.keys(currencies).map(currency => (
+            <MenuItem key={currency} value={currency}>
+              {currencies[currency]}
+            </MenuItem>
+    ))}
         </MUISelect>
       </FormControl>
     </div>

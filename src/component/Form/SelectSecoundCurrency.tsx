@@ -1,16 +1,17 @@
-import * as React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import MUISelect, { SelectChangeEvent } from '@mui/material/Select';
+import MUISelect from '@mui/material/Select';
 
 
-export function SecoundSelect() {
-  const [secoundCurrency, setCurrency] = React.useState('');
+interface SelectCurrencyProps {
+    value: string;
+    onChange: (value: string) => void;
+    currencies: { [key: string]: string };
+  }
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setCurrency(event.target.value);
-  };
+
+export function SecoundSelect({ value, onChange, currencies }: SelectCurrencyProps) {
 
   return (
     <div>
@@ -19,16 +20,19 @@ export function SecoundSelect() {
         <MUISelect
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
-          value={secoundCurrency}
-          onChange={handleChange}
+          value={value}
+          onChange={e => onChange(e.target.value as string)}
           label="Currency"
         >
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {Object.keys(currencies).map(currency => (
+            <MenuItem key={currency} value={currency}>
+            {currencies[currency]}
+            </MenuItem>
+         ))}
+          
         </MUISelect>
       </FormControl>
     </div>
