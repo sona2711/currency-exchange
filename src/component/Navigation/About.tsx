@@ -12,7 +12,8 @@ export function AboutPage() {
         <Box sx={{
           textAlign: 'start',
           margin: 'auto',
-          padding: "100px"}}>
+          padding: "100px",
+          backgroundColor: "#eff4fe"}}>
           <Typography variant="h3" component="h2" sx={{m: 1}}>
             {text}  
           </Typography>

@@ -7,7 +7,9 @@ import { SwapButton } from './SwapBtn';
 import { SecoundSelect } from './SelectSecoundCurrency';
 import { SubmitBtn} from './SubmitBtn';
 import { FormHeader} from './HeaderText';
-import { FormInfo } from './InfoText'
+import { FormInfo } from './InfoText';
+import { LastConversions } from '../Exchange_History/LastConversions';
+import { useHistoryContext } from '../../context/HistoryContext';
 
 
 
@@ -22,6 +24,7 @@ export function Form() {
     const [toCurrency, setToCurrency] = useState<string>('');
     const [amount, setAmount] = useState<number | string>('');
     const [convertedAmount, setConvertedAmount] = useState<number | null>(null);
+    const { addHistory } = useHistoryContext();
 
 
    const handleChange = (event: any) => {
@@ -53,7 +56,9 @@ export function Form() {
       console.log(data)
       const rate = data[fromCurrency][toCurrency];
       console.log(rate)
-     setConvertedAmount(Number(amount) * rate);
+      const converted = Number(amount) * rate;
+     setConvertedAmount(converted);
+     addHistory(`${amount} ${fromCurrency} = ${converted} ${toCurrency}`);
     })
     .catch(error => console.error('Error fetching exchange rate:', error));
   };
@@ -67,6 +72,9 @@ export function Form() {
             display:'flex',
             flexDirection: 'column',
             gap: '30px',
+            backgroundColor: "#eff4fe",
+            width: "70%",
+            padding: "20px",
             }}>
             <FormHeader/>
             <form onSubmit={handleSubmit}>
@@ -84,6 +92,7 @@ export function Form() {
             </form>
             {convertedAmount !== null && (
         <FormInfo amount={amount}  convertedAmount={convertedAmount} fromCurrency={fromCurrency} toCurrency={toCurrency} />)}
+        < LastConversions/>
         </Box>   
     );
   }

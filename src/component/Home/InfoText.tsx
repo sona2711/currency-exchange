@@ -24,7 +24,7 @@ export function FormInfo({amount, convertedAmount, fromCurrency, toCurrency }:In
         <Box sx={{
             display:'flex',
             flexDirection: 'column',
-            gap: '20px',
+            gap: 1,
             justifyContent: 'center',
             alignItems: 'center',
             }} >
@@ -32,12 +32,15 @@ export function FormInfo({amount, convertedAmount, fromCurrency, toCurrency }:In
               <span>{fromCurrencyInfo}</span>
               <span style={greenColor}>{toCurrencyInfo}</span>
              </Typography>
-             <Typography variant="h6" component="h2">
-                 {`1 ${fromCurrency} = ${fromCurrencyOneValue} ${toCurrency}`.toUpperCase()} 
-             </Typography>
-             <Typography variant="h6" component="h2">
-                {`1 ${toCurrency} = ${toCurrencyOneValue} ${fromCurrency}`.toUpperCase()}   
-             </Typography>
+             <Box>
+                <Typography paragraph={true} sx={{fontSize: '14px'}}>
+                    {`1 ${fromCurrency} = ${fromCurrencyOneValue} ${toCurrency}`.toUpperCase()} 
+                </Typography>
+                <Typography paragraph={true} sx={{fontSize: '14px'}}>
+                    {`1 ${toCurrency} = ${toCurrencyOneValue} ${fromCurrency}`.toUpperCase()}   
+                </Typography>
+             </Box>
+             
         </Box>
         
        
