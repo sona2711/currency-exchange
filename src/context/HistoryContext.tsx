@@ -1,16 +1,24 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
+
+
+interface ConversionEntry {
+  currency: string;
+  amount: number;
+  date: string;
+}
+
 interface HistoryContextProps {
-  history: string[];
-  addHistory: (entry: string) => void;
+  history:  ConversionEntry[];
+  addHistory: (entry: ConversionEntry) => void;
 }
 
 const HistoryContext = createContext<HistoryContextProps | undefined>(undefined);
 
 export const HistoryProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [history, setHistory] = useState<string[]>([]);
+  const [history, setHistory] = useState<ConversionEntry[]>([]);
 
-  const addHistory = (entry: string) => {
+  const addHistory = (entry: ConversionEntry) => {
     setHistory([...history, entry]);
   };
 

@@ -1,11 +1,17 @@
 import { Box , Typography,  List, ListItem, ListItemText } from '@mui/material';
 import { useHistoryContext } from '../../context/HistoryContext';
+import { useNavigate } from 'react-router';
 
  export const ConversionHistory = () => {
   const { history } = useHistoryContext();
-
   const header: string = 'Conversion History';
+
+  const navigate = useNavigate()
+
   
+  const handleCurrencyClick = (currency: string) => {
+    navigate(`/currency-info/${currency}`);
+  };
 
   return (
     <Box  sx={{
@@ -17,8 +23,8 @@ import { useHistoryContext } from '../../context/HistoryContext';
       <Typography variant="h3" component="h2">{header}</Typography>
       <List>
         {history.map((entry, index) => (
-          <ListItem key={index} sx={{backgroundColor: '#fff', marginBottom: '10px', borderRadius: '8px'}}>
-            <ListItemText primary={entry} />
+          <ListItem key={index} onClick={()=>handleCurrencyClick(entry.currency)} sx={{backgroundColor: '#fff', marginBottom: '10px', borderRadius: '8px'}}>
+            <ListItemText primary={`${entry.currency} - ${entry.amount} on ${entry.date}`} />
           </ListItem>
         ))}
       </List>

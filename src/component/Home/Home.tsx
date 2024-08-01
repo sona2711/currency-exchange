@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 
+
 import { Textfield } from './Textfield';
 import { FirstSelect } from './SelectFirstCurrency';
 import { SwapButton } from './SwapBtn';
@@ -58,7 +59,13 @@ export function Form() {
       console.log(rate)
       const converted = Number(amount) * rate;
      setConvertedAmount(converted);
-     addHistory(`${amount} ${fromCurrency} = ${converted} ${toCurrency}`);
+
+     const newEntry = {
+      currency: fromCurrency,
+      amount: Number(amount),
+      date: new Date().toLocaleDateString(),
+    };
+     addHistory(newEntry);
     })
     .catch(error => console.error('Error fetching exchange rate:', error));
   };
@@ -85,7 +92,12 @@ export function Form() {
                     alignItems: 'center'}}>
                     <Textfield value={amount} onChange={handleChange}/>
                     <FirstSelect   value={fromCurrency}  onChange={setFromCurrency} currencies={currencies} />
-                    <SwapButton/>
+                    <SwapButton 
+                    // onClick={() => {
+                    //   const temp = fromCurrency;
+                    //   setFromCurrency(toCurrency);
+                    //   setToCurrency(temp)}}
+                      />
                     <SecoundSelect  value={toCurrency} onChange={setToCurrency} currencies={currencies}/> 
                     <SubmitBtn/>
                 </Box>
